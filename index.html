@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>德州扑克 GTO 训练竞技场</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -86,6 +86,14 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.65);
             z-index: 28; pointer-events: none;
         }
+        /* Sit above seat panel (between hole cards and nameplate) */
+        .seat-info > .seat-action-tag {
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 4px);
+            transform: translateX(-50%);
+            margin-top: 0;
+        }
         @media (min-width: 768px) {
             .seat-action-tag { font-size: 15px; padding: 6px 14px; }
         }
@@ -158,11 +166,198 @@
             position: absolute; top: -8px; width: 7px; height: 10px; border-radius: 2px;
             animation: confettiFall linear forwards; pointer-events: none;
         }
+
+        /* —— Mobile portrait / narrow: taller table, no seat crush —— */
+        @media (max-width: 700px) {
+            body { min-height: 100dvh; overflow-x: hidden; overflow-y: auto; }
+            header.app-header {
+                padding: 0.35rem 0.65rem;
+                padding-top: max(0.35rem, env(safe-area-inset-top));
+                gap: 0.35rem;
+            }
+            header.app-header .fa-crown { font-size: 1.05rem; }
+            header.app-header h1 { font-size: 0.92rem; line-height: 1.2; }
+            header.app-header h1 > span { display: none; }
+            header.app-header .hdr-btn { padding: 0.35rem 0.55rem; font-size: 0.75rem; }
+            main.app-main {
+                overflow: visible;
+                align-items: center;
+                flex-direction: column;
+                justify-content: flex-start;
+                padding: 0.35rem 0.45rem 0.2rem;
+                flex: 1 1 auto;
+            }
+            #poker-table {
+                aspect-ratio: 3 / 4;
+                max-width: 100%;
+                min-height: min(62dvh, 560px);
+                border-width: 10px;
+                border-radius: 44px !important;
+                padding: 0.45rem !important;
+            }
+            #poker-table .table-inner-ring {
+                inset: 0.55rem !important;
+                border-radius: 34px !important;
+            }
+            #poker-table .table-center {
+                max-width: 88%;
+                padding-top: 0.25rem;
+            }
+            #poker-table .pot-pill {
+                padding: 0.25rem 0.75rem;
+                margin-bottom: 0.35rem;
+            }
+            #poker-table .pot-pill #total-pot-amount { font-size: 0.95rem; }
+            #community-cards-container {
+                min-height: 4.25rem !important;
+                gap: 0.3rem !important;
+                margin: 0.15rem 0 !important;
+            }
+            #community-cards-container .deal-placeholder {
+                padding: 1rem 1.25rem !important;
+                font-size: 0.65rem;
+            }
+            #game-phase-badge.phase-badge {
+                position: relative;
+                align-self: center;
+                margin: 0 0 0.35rem 0 !important;
+                z-index: 32;
+                font-size: 0.62rem !important;
+                padding: 0.2rem 0.7rem !important;
+                white-space: nowrap;
+                max-width: 96%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            #seats-container .seat-root { z-index: 20; position: absolute; }
+            #seats-container .seat-info {
+                min-width: 78px !important;
+                max-width: 96px !important;
+                padding: 0.22rem 0.35rem !important;
+                gap: 0.22rem !important;
+                border-radius: 0.65rem !important;
+            }
+            #seats-container .seat-info .seat-avatar {
+                width: 1.15rem !important;
+                height: 1.15rem !important;
+                font-size: 0.5rem !important;
+            }
+            #seats-container .seat-info .seat-name { font-size: 0.55rem !important; }
+            #seats-container .seat-info .seat-stack { font-size: 0.58rem !important; }
+            #seats-container .seat-info .seat-stack span { font-size: 0.48rem !important; }
+            #seats-container .seat-cards { gap: 0.12rem !important; margin-bottom: -0.45rem !important; }
+            #seats-container .card-size,
+            #community-cards-container .card-size {
+                width: 1.85rem !important;
+                height: 2.65rem !important;
+                border-radius: 0.3rem !important;
+                padding: 0.1rem !important;
+            }
+            #community-cards-container .card-size {
+                width: 2.2rem !important;
+                height: 3.15rem !important;
+            }
+            .poker-card-face .card-rank { font-size: 0.68rem !important; }
+            .poker-card-face .card-suit-sm { font-size: 0.52rem !important; }
+            .poker-card-face .card-suit-lg { font-size: 0.78rem !important; }
+            .poker-card:hover { transform: none; }
+            /* Overlay tags so they don't inflate seat stack height */
+            .seat-action-tag {
+                font-size: 10px !important;
+                padding: 2px 7px !important;
+                max-width: 96px !important;
+                margin: 0 !important;
+                border-width: 1.5px;
+                z-index: 29;
+            }
+            .seat-hand-tag {
+                font-size: 9.5px !important;
+                padding: 2px 6px !important;
+                max-width: 100px !important;
+                margin-top: 2px !important;
+            }
+            .seat-hand-tag.winner { font-size: 10px !important; padding: 2px 7px !important; }
+            .street-bet-chip { width: 18px; height: 18px; border-width: 2px; }
+            .street-bet-chip::after { inset: 3px; }
+            .street-bet-amt { font-size: 9px; padding: 0 4px; }
+            footer.app-footer {
+                padding: 0.4rem 0.55rem;
+                padding-bottom: max(0.85rem, calc(env(safe-area-inset-bottom, 0px) + 0.35rem));
+            }
+            footer.app-footer .footer-inner { gap: 0.45rem; }
+            #game-log {
+                height: 2.5rem !important;
+                font-size: 0.62rem;
+                order: 3;
+            }
+            #action-controls { order: 1; gap: 0.4rem !important; width: 100%; }
+            .bet-presets-row { gap: 0.3rem !important; width: 100%; flex-wrap: wrap !important; }
+            .bet-presets-row .raise-slider-wrap { flex: 0 0 100% !important; width: 100% !important; max-width: 100% !important; }
+            .btn-bet-preset {
+                padding: 0.4rem 0.55rem !important;
+                font-size: 0.7rem !important;
+                min-height: 2.1rem;
+                flex: 1 1 auto;
+                text-align: center;
+            }
+            .raise-slider-wrap {
+                min-width: 0 !important;
+                max-width: none !important;
+                flex: 1 1 100%;
+                width: 100%;
+                margin-left: 0 !important;
+                margin-top: 0.2rem;
+                padding: 0.4rem 0.6rem !important;
+            }
+            .bet-presets-row .btn-bet-preset { flex: 1 1 0; }
+            input[type=range]::-webkit-slider-runnable-track { height: 10px; }
+            input[type=range]::-webkit-slider-thumb { height: 26px; width: 26px; margin-top: -8px; }
+            .action-btns-row { gap: 0.45rem !important; }
+            #btn-fold, #btn-check-call, #btn-raise {
+                max-width: none !important;
+                flex: 1 1 0;
+                min-height: 2.85rem;
+                padding-top: 0.45rem;
+                padding-bottom: 0.45rem;
+            }
+            #btn-fold > span:first-child,
+            #lbl-check-call, #lbl-raise { font-size: 0.9rem; }
+            #sub-check-call, #sub-raise,
+            #btn-fold > span:last-child { font-size: 0.62rem; }
+            .start-deal-wrap { order: 2; width: 100%; }
+            #btn-start-deal {
+                width: 100%;
+                min-height: 2.6rem;
+                padding: 0.55rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+        @media (max-width: 700px) and (max-height: 720px) {
+            #poker-table {
+                aspect-ratio: 10 / 14;
+                min-height: min(50dvh, 440px);
+            }
+            #game-log { height: 2.6rem !important; }
+        }
+        /* Desktop: float phase badge over lower board area of table */
+        @media (min-width: 701px) {
+            main.app-main { position: relative; }
+            #game-phase-badge.phase-badge {
+                position: absolute;
+                left: 50%;
+                top: 58%;
+                transform: translateX(-50%);
+                z-index: 30;
+                margin: 0 !important;
+                pointer-events: none;
+            }
+        }
+
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between font-sans antialiased select-none">
 
-    <header class="w-full bg-slate-900/90 border-b border-slate-800 px-4 sm:px-6 py-3 flex items-center justify-between backdrop-blur-md z-40">
+    <header class="app-header w-full bg-slate-900/90 border-b border-slate-800 px-4 sm:px-6 py-3 flex items-center justify-between backdrop-blur-md z-40">
         <div class="flex items-center gap-3">
             <i class="fa-solid fa-crown text-poker-gold text-2xl"></i>
             <h1 class="font-cinzel text-lg md:text-2xl font-bold tracking-wider text-poker-gold">
@@ -188,31 +383,34 @@
                 <i class="fa-solid fa-forward text-amber-300"></i>
                 <span class="font-semibold text-amber-200">弃牌观战 · 五倍速</span>
             </div>
-            <button id="btn-gto-coach" class="px-3 py-1.5 bg-purple-900/60 hover:bg-purple-800 text-purple-100 text-sm font-semibold rounded-lg border border-purple-600/50 transition flex items-center gap-1.5" title="查看当前局面 GTO 建议">
+            <button id="btn-gto-coach" class="hdr-btn px-3 py-1.5 bg-purple-900/60 hover:bg-purple-800 text-purple-100 text-sm font-semibold rounded-lg border border-purple-600/50 transition flex items-center gap-1.5" title="查看当前局面 GTO 建议">
                 <i class="fa-solid fa-lightbulb text-yellow-300"></i>
                 <span class="hidden sm:inline">GTO 攻略</span>
             </button>
-            <button id="btn-review" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold rounded-lg border border-slate-600 transition flex items-center gap-1.5 opacity-50 pointer-events-none" title="本局复盘">
+            <button id="btn-review" class="hdr-btn px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold rounded-lg border border-slate-600 transition flex items-center gap-1.5 opacity-50 pointer-events-none" title="本局复盘">
                 <i class="fa-solid fa-chart-line text-emerald-400"></i>
                 <span class="hidden sm:inline">复盘</span>
             </button>
-            <button id="btn-mute-sfx" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold rounded-lg border border-slate-600 transition flex items-center gap-1.5" title="开关音效">
+            <button id="btn-mute-sfx" class="hdr-btn px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold rounded-lg border border-slate-600 transition flex items-center gap-1.5" title="开关音效">
                 <i id="icon-mute-sfx" class="fa-solid fa-volume-high text-poker-gold"></i>
                 <span id="lbl-mute-sfx" class="hidden sm:inline">音效</span>
             </button>
-            <button id="btn-open-settings" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold rounded-lg border border-slate-600 transition flex items-center gap-2">
+            <button id="btn-open-settings" class="hdr-btn px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold rounded-lg border border-slate-600 transition flex items-center gap-2">
                 <i class="fa-solid fa-gear text-poker-gold"></i>
                 <span class="hidden sm:inline">设置</span>
             </button>
         </div>
     </header>
 
-    <main class="flex-1 flex items-center justify-center p-2 sm:p-6 relative overflow-hidden">
+    <main class="app-main flex-1 flex flex-col items-center justify-center p-2 sm:p-6 relative overflow-hidden">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(17,94,52,0.15)_0,transparent_70%)] pointer-events-none"></div>
+        <div id="game-phase-badge" class="phase-badge text-xs font-bold text-poker-goldLight bg-black/60 px-4 py-1 rounded-full border border-poker-gold/30 tracking-widest uppercase z-30 mb-1.5 md:mb-0">
+            欢迎光临 — 点击发牌开始
+        </div>
         <div id="poker-table" class="relative w-full max-w-6xl aspect-[16/9] poker-table-felt rounded-[140px] md:rounded-[200px] flex items-center justify-center p-4 md:p-8 transition-all">
-            <div class="absolute inset-4 md:inset-8 border border-poker-gold/20 rounded-[120px] md:rounded-[180px] pointer-events-none"></div>
-            <div class="relative flex flex-col items-center justify-center z-10 w-full max-w-xl">
-                <div class="bg-slate-900/85 border border-poker-gold/40 px-6 py-2 rounded-full shadow-2xl backdrop-blur-md mb-4 flex flex-col items-center">
+            <div class="table-inner-ring absolute inset-4 md:inset-8 border border-poker-gold/20 rounded-[120px] md:rounded-[180px] pointer-events-none"></div>
+            <div class="table-center relative flex flex-col items-center justify-center z-10 w-full max-w-xl">
+                <div class="pot-pill bg-slate-900/85 border border-poker-gold/40 px-6 py-2 rounded-full shadow-2xl backdrop-blur-md mb-4 flex flex-col items-center">
                     <div class="flex items-center gap-2 text-xs font-semibold tracking-wider text-poker-goldLight uppercase">
                         <i class="fa-solid fa-coins text-poker-gold"></i>
                         <span>总底池:</span>
@@ -220,34 +418,31 @@
                     </div>
                 </div>
                 <div id="community-cards-container" class="flex flex-wrap items-center justify-center gap-2.5 min-h-[100px] md:min-h-[128px] my-2">
-                    <div class="text-slate-500/40 text-xs tracking-widest font-cinzel italic border border-dashed border-slate-600/40 px-8 py-8 rounded-xl">荷官发牌区</div>
-                </div>
-                <div id="game-phase-badge" class="mt-2 text-xs font-bold text-poker-goldLight bg-black/60 px-4 py-1 rounded-full border border-poker-gold/30 tracking-widest uppercase">
-                    欢迎光临 — 点击发牌开始
+                    <div class="deal-placeholder text-slate-500/40 text-xs tracking-widest font-cinzel italic border border-dashed border-slate-600/40 px-8 py-8 rounded-xl">荷官发牌区</div>
                 </div>
             </div>
             <div id="seats-container" class="absolute inset-0 pointer-events-none"></div>
         </div>
     </main>
 
-    <footer class="w-full bg-slate-950/95 border-t border-slate-800 p-3 md:p-4 z-40 backdrop-blur-xl">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <footer class="app-footer w-full bg-slate-950/95 border-t border-slate-800 p-3 md:p-4 z-40 backdrop-blur-xl">
+        <div class="footer-inner max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="w-full md:w-80 h-20 bg-slate-900/90 rounded-lg border border-slate-800 p-2 overflow-y-auto text-xs font-mono leading-relaxed" id="game-log">
                 <div class="text-poker-gold font-semibold">[系统] 欢迎来到瓦尔基里 GTO 训练竞技场。请设置牌局或点击发牌。</div>
             </div>
             <div id="action-controls" class="w-full md:w-auto flex-1 flex flex-col gap-2 items-center opacity-50 pointer-events-none transition-opacity">
-                <div class="flex items-center gap-1.5 sm:gap-2 w-full justify-center flex-wrap">
+                <div class="bet-presets-row flex items-center gap-1.5 sm:gap-2 w-full justify-center flex-wrap">
                     <button class="btn-bet-preset px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded border border-slate-700" data-factor="min">最小</button>
                     <button class="btn-bet-preset px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded border border-slate-700" data-factor="2x">2倍</button>
                     <button class="btn-bet-preset px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded border border-slate-700" data-factor="3x">3倍</button>
                     <button class="btn-bet-preset px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded border border-slate-700" data-factor="pot">底池</button>
                     <button class="btn-bet-preset px-2.5 py-1 bg-amber-900/40 hover:bg-amber-800/60 text-amber-300 text-xs font-bold rounded border border-amber-700/50" data-factor="allin">全押</button>
-                    <div class="flex items-center gap-2 ml-1 bg-slate-900 px-3 py-1 rounded-lg border border-slate-800 flex-1 max-w-xs min-w-[120px]">
+                    <div class="raise-slider-wrap flex items-center gap-2 ml-1 bg-slate-900 px-3 py-1 rounded-lg border border-slate-800 flex-1 max-w-xs min-w-[120px]">
                         <input id="raise-slider" type="range" min="0" max="1000" value="0" class="w-full">
                         <span id="raise-amount-display" class="font-bold text-poker-gold text-xs min-w-[50px] text-right">$0</span>
                     </div>
                 </div>
-                <div class="flex items-center justify-center gap-3 w-full">
+                <div class="action-btns-row flex items-center justify-center gap-3 w-full">
                     <button id="btn-fold" class="flex-1 max-w-[130px] py-3 bg-red-950/80 hover:bg-red-900 text-red-200 font-bold rounded-xl border border-red-700/50 shadow-lg transition active:scale-95 flex flex-col items-center justify-center">
                         <span class="text-sm">弃牌</span>
                         <span class="text-[10px] text-red-400/80 font-normal">Fold</span>
@@ -262,7 +457,7 @@
                     </button>
                 </div>
             </div>
-            <div class="w-full md:w-auto flex justify-end">
+            <div class="start-deal-wrap w-full md:w-auto flex justify-end">
                 <button id="btn-start-deal" class="w-full md:w-auto px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-900/40 border border-emerald-400 transition active:scale-95 flex items-center justify-center gap-2">
                     <i class="fa-solid fa-play"></i>
                     <span id="lbl-start-btn">开始发牌</span>
@@ -1521,12 +1716,19 @@
                 return { sbIdx, bbIdx };
             }
 
+            isNarrowLayout() {
+                return window.matchMedia('(max-width: 700px)').matches;
+            }
+
             renderSeats(winningPlayers = null) {
                 const winners = winningPlayers || this.winners || [];
                 const container = document.getElementById('seats-container');
                 container.innerHTML = '';
                 const total = this.players.length;
-                const cx = 50, cy = 50, rx = 42, ry = 38;
+                const narrow = this.isNarrowLayout();
+                // Portrait: keep seats near rim but leave center clear for pot/board
+                const cx = 50, cy = 50, rx = narrow ? 38 : 42, ry = narrow ? 39 : 38;
+                const betPull = narrow ? 0.48 : 0.58;
                 const { sbIdx, bbIdx } = this.getBlindIndices();
                 const showdown = this.currentStage === 'SHOWDOWN' || this.currentStage === 'SETTLED';
 
@@ -1541,7 +1743,7 @@
                         || (this.spectateMode && !p.folded && !p.busted && p.cards.length);
 
                     const seatDiv = document.createElement('div');
-                    seatDiv.className = 'absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-auto';
+                    seatDiv.className = 'seat-root absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-auto';
                     seatDiv.style.left = `${left}%`;
                     seatDiv.style.top = `${top}%`;
                     if (p.busted) seatDiv.style.opacity = '0.35';
@@ -1557,7 +1759,7 @@
                         // Keep hero hole cards face-up after fold; other players stay face-down until showdown.
                         const revealed = showCards && (p.isHuman || !p.folded);
                         const foldDim = (p.folded && !p.isHuman) ? 'opacity-50' : '';
-                        cardsHTML = `<div class="flex gap-1 -mb-3 z-10 ${foldDim}">${p.cards.map(c =>
+                        cardsHTML = `<div class="seat-cards flex gap-1 -mb-3 z-10 ${foldDim}">${p.cards.map(c =>
                             this.renderCardHTML(c, revealed, winKeys.has(cardKey(c)))
                         ).join('')}</div>`;
                     }
@@ -1599,15 +1801,15 @@
                     const bbStack = this.bigBlind > 0 ? (p.chips / this.bigBlind).toFixed(1) : '0';
                     seatDiv.innerHTML = `
                         ${cardsHTML}
-                        ${actionTag}
-                        <div class="relative bg-slate-900/90 border ${isCurrent ? 'active-player-glow border-poker-gold' : 'border-slate-700'} ${isWinner ? 'ring-4 ring-poker-gold' : ''} px-3 py-2 rounded-2xl shadow-xl flex items-center gap-2.5 min-w-[120px] max-w-[150px] z-20">
+                        <div class="seat-info relative bg-slate-900/90 border ${isCurrent ? 'active-player-glow border-poker-gold' : 'border-slate-700'} ${isWinner ? 'ring-4 ring-poker-gold' : ''} px-3 py-2 rounded-2xl shadow-xl flex items-center gap-2.5 min-w-[120px] max-w-[150px] z-20">
                             ${badges.length ? `<div class="absolute -top-2.5 left-1/2 -translate-x-1/2 flex gap-0.5">${badges.join('')}</div>` : ''}
-                            <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center text-xs font-bold ${p.isHuman ? 'text-poker-gold' : 'text-slate-300'}">
+                            ${actionTag}
+                            <div class="seat-avatar w-8 h-8 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center text-xs font-bold ${p.isHuman ? 'text-poker-gold' : 'text-slate-300'}">
                                 ${p.isHuman ? '<i class="fa-solid fa-user"></i>' : '<i class="fa-solid fa-robot"></i>'}
                             </div>
                             <div class="flex-1 overflow-hidden">
-                                <div class="text-[11px] font-bold truncate text-slate-200">${p.name}</div>
-                                <div class="text-xs font-bold text-poker-goldLight">$${p.chips} <span class="text-[10px] text-slate-500 font-normal">${bbStack}BB</span></div>
+                                <div class="seat-name text-[11px] font-bold truncate text-slate-200">${p.name}</div>
+                                <div class="seat-stack text-xs font-bold text-poker-goldLight">$${p.chips} <span class="text-[10px] text-slate-500 font-normal">${bbStack}BB</span></div>
                             </div>
                         </div>
                         ${handTag}
@@ -1616,8 +1818,8 @@
 
                     // Street bet chip in front of seat (toward table center)
                     if (p.currentBet > 0 && !p.busted) {
-                        const betLeft = cx + rx * 0.58 * Math.cos(angle);
-                        const betTop = cy + ry * 0.58 * Math.sin(angle);
+                        const betLeft = cx + rx * betPull * Math.cos(angle);
+                        const betTop = cy + ry * betPull * Math.sin(angle);
                         const betDiv = document.createElement('div');
                         betDiv.className = 'street-bet absolute transform -translate-x-1/2 -translate-y-1/2';
                         betDiv.style.left = `${betLeft}%`;
@@ -1632,7 +1834,7 @@
             }
 
             renderCardHTML(card, isRevealed, isWinningCard = false) {
-                const sizeCls = 'w-11 h-16 md:w-14 md:h-[5.25rem]';
+                const sizeCls = 'card-size w-11 h-16 md:w-14 md:h-[5.25rem]';
                 if (!isRevealed) {
                     return `<div class="${sizeCls} bg-gradient-to-br from-blue-900 to-indigo-950 border-2 border-slate-300 rounded-lg shadow-md flex items-center justify-center p-1">
                         <i class="fa-solid fa-shield-halved text-blue-400/50 text-base md:text-lg"></i></div>`;
@@ -1650,7 +1852,7 @@
                 const winners = winningPlayers || this.winners || [];
                 const container = document.getElementById('community-cards-container');
                 if (this.communityCards.length === 0) {
-                    container.innerHTML = `<div class="text-slate-500/40 text-xs tracking-widest font-cinzel italic border border-dashed border-slate-600/40 px-8 py-8 rounded-xl">荷官发牌区</div>`;
+                    container.innerHTML = `<div class="deal-placeholder text-slate-500/40 text-xs tracking-widest font-cinzel italic border border-dashed border-slate-600/40 px-8 py-8 rounded-xl">荷官发牌区</div>`;
                     return;
                 }
                 const winKeys = new Set();
@@ -2056,6 +2258,13 @@
         window.addEventListener('DOMContentLoaded', () => {
             window.gameInstance = new TexasHoldemGame();
             window.gameInstance.resetTable();
+            let _resizeTimer = null;
+            window.addEventListener('resize', () => {
+                clearTimeout(_resizeTimer);
+                _resizeTimer = setTimeout(() => {
+                    if (window.gameInstance) window.gameInstance.renderSeats();
+                }, 120);
+            });
         });
     </script>
 </body>

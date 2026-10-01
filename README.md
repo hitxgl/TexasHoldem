@@ -2,13 +2,9 @@
 
 单文件 HTML 应用：绒毡牌桌对局 + GTO 启发式训练，并修正了核心牌局规则。
 
-## 在线体验
-
-https://hitxgl.github.io/TexasHoldem/
-
 ## 如何打开
 
-线上地址：https://hitxgl.github.io/TexasHoldem/ （GitHub Pages，从 `main` 分支根目录发布）。也可以用浏览器直接打开本目录下的 `index.html`（需能访问 CDN：Tailwind、Font Awesome、Google Fonts）。
+用浏览器直接打开本目录下的 `index.html` 即可（需能访问 CDN：Tailwind、Font Awesome、Google Fonts）。
 
 ```bash
 # 例如
@@ -30,6 +26,7 @@ python3 -m http.server 8080 --directory .
 - GTO 启发式教练与局后复盘吻合度
 - **Web Audio 音效**：发牌 / 筹码 / 看牌 / 跟注 / 弃牌 / 加注 / 赢池 / 轮到你；纯振荡器+噪声，无外部音频文件；表头「音效/静音」开关（`localStorage` 记忆）；首次点击解锁 AudioContext；默认主增益与各 cue 音量已调高；出局观战 5× 时音量压低并节流，避免刷屏
 - **可选升盲**：设置中开关（默认关）；按「每满一圈庄」或「每 K 手」抬盲；固定加码或倍率；表头显示当前盲注与下次升盲提示
+- **手机竖屏适配**：窄屏（≤700px）改用更高牌桌比例（约 3:4）替代横屏 16:9，缩小座位/牌面/标签避免重叠；阶段提示移到桌顶；底部弃牌/跟注/加注加大可点，预设与滑条可用，并预留 `safe-area` 以免「开始发牌」被浏览器底栏挡住；桌面/横屏布局保持原样
 
 ## 升盲说明
 
@@ -63,6 +60,7 @@ python3 -m http.server 8080 --directory .
 - **锦标赛结束 UX**：去掉阻塞式 `alert`；冠军庆祝改为**非遮挡顶栏横幅**（半透明面板 + 轻量彩纸，不盖住牌桌/手牌），含冠军文案与「再来一局」；AI 夺冠同为中性顶栏；`pointer-events` 仅面板可点，牌桌仍可见可点；调用与设置相同的 `resetTable()`；沿用 `PokerSFX.win()`
 - **弃牌观战手牌**：英雄弃牌后两张底牌保持正面朝上（座位不降透明），便于 5× 观战复盘；其他玩家底牌仍背面朝上直至摊牌
 - **可选升盲**：设置 UI + 手牌/一圈计数 + 加码/倍率；关闭时零行为变化
+- **手机竖屏 UI**：`@media (max-width: 700px)` 调整牌桌宽高比、座位椭圆半径、控件与安全区；`resize` 时重算座位
 
 ## 已知局限
 
