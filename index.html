@@ -331,8 +331,8 @@
                 flex-shrink: 0;
                 z-index: 45;
                 padding: 0.35rem 0.5rem;
-                /* Clear iOS Safari bottom toolbar + home indicator */
-                padding-bottom: max(12px, calc(env(safe-area-inset-bottom, 0px) + 56px));
+                /* Home indicator only: --vvh already clears floating Safari toolbar */
+                padding-bottom: max(8px, calc(env(safe-area-inset-bottom, 0px) + 12px));
             }
             footer.app-footer .footer-inner { gap: 0.35rem; }
             /* ~3–4 readable log lines on phone */
@@ -416,7 +416,7 @@
             }
             footer.app-footer {
                 padding-top: 0.25rem;
-                padding-bottom: max(12px, calc(env(safe-area-inset-bottom, 0px) + 52px));
+                padding-bottom: max(8px, calc(env(safe-area-inset-bottom, 0px) + 10px));
             }
             #btn-fold, #btn-check-call, #btn-raise { min-height: 2.4rem; }
             #btn-start-deal { min-height: 2.2rem; padding: 0.4rem 1rem; }
