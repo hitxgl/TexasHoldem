@@ -26,7 +26,7 @@ python3 -m http.server 8080 --directory .
 - GTO 启发式教练与局后复盘吻合度
 - **Web Audio 音效**：发牌 / 筹码 / 看牌 / 跟注 / 弃牌 / 加注 / 赢池 / 轮到你；纯振荡器+噪声，无外部音频文件；表头「音效/静音」开关（`localStorage` 记忆）；首次点击解锁 AudioContext；默认主增益与各 cue 音量已调高；出局观战 5× 时音量压低并节流，避免刷屏
 - **可选升盲**：设置中开关（默认关）；按「每满一圈庄」或「每 K 手」抬盲；固定加码或倍率；表头显示当前盲注与下次升盲提示
-- **手机竖屏适配**：窄屏（≤700px）改用更高牌桌比例（约 3:4）替代横屏 16:9，缩小座位/牌面/标签避免重叠；阶段提示移到桌顶；底部弃牌/跟注/加注加大可点。布局优先 `100dvh` + `visualViewport`（`--vvh`），页脚 `sticky` 并 `padding-bottom: max(12px, env(safe-area-inset-bottom) + 56px)` 清开 iOS Safari 底栏；矮屏进一步压牌桌 `max-height`，极矮屏隐藏对局日志；主区仅在必要时滚动；桌面/横屏布局保持原样
+- **手机竖屏适配**：窄屏（≤700px）改用更高牌桌比例（约 3:4）替代横屏 16:9，略缩牌桌/AI 座位椭圆半径，给英雄底牌留白；庄/盲徽标移到名牌下方，底牌抬高避开头像与「小盲」等标签；阶段提示在桌顶；底部弃牌/跟注/加注加大可点并保持 Safari `safe-area` 垫高。布局优先 `100dvh` + `visualViewport`（`--vvh`），页脚 `sticky` + `padding-bottom: max(12px, env(safe-area-inset-bottom) + 56px)`；对局日志约 3–4 行高（矮屏仍保留约 2–3 行，不再整段隐藏）；预设/滑条略压缩以腾出空间；桌面/横屏布局保持原样
 
 ## 升盲说明
 
@@ -61,7 +61,8 @@ python3 -m http.server 8080 --directory .
 - **弃牌观战手牌**：英雄弃牌后两张底牌保持正面朝上（座位不降透明），便于 5× 观战复盘；其他玩家底牌仍背面朝上直至摊牌
 - **可选升盲**：设置 UI + 手牌/一圈计数 + 加码/倍率；关闭时零行为变化
 - **手机竖屏 UI**：`@media (max-width: 700px)` 调整牌桌宽高比、座位椭圆半径、控件与安全区；`resize` 时重算座位
-- **iOS Safari 底栏遮挡**：页脚加大 `safe-area` + ~56px 垫高；牌桌改 `max-height`（相对 `dvh`/`--vvh`）而非强制 `min-height`；`≤640px` 高隐藏 `#game-log`；`visualViewport` 同步 `--vvh`
+- **iOS Safari 底栏遮挡**：页脚加大 `safe-area` + ~56px 垫高；牌桌改 `max-height`（相对 `dvh`/`--vvh`）而非强制 `min-height`；`visualViewport` 同步 `--vvh`
+- **手机竖屏再平衡**：盲注/庄徽标改到名牌下方；底牌 `z-index` 抬高并加大与名牌间距；街注筹码略向桌心拉远；`#game-log` 约 3.85rem（矮屏 3.2rem / 极矮 2.85rem，不再 `display:none`）；牌桌 `max-height` 略降并为日志腾位；下注预设/滑条更紧凑
 
 ## 已知局限
 
